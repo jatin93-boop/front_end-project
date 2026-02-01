@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Creative Drawing Board</title>
+
+<style>
+body{
+ font-family: Arial;
+ text-align:center;
+ background:#eef2ff;
+}
+
+#box{
+ background:white;
+ border:3px solid #4a6cff;
+ border-radius:12px;
+ cursor:crosshair;
+}
+
+.controls{
+ margin:10px;
+}
+
+button{
+ padding:8px 15px;
+ background:#4a6cff;
+ color:white;
+ border:none;
+ border-radius:5px;
+}
+</style>
+</head>
+<body>
+
+<h2>🎨 Creative Drawing Board</h2>
+
+<div class="controls">
+ Color:
+ <input type="color" id="color" value="#4a6cff">
+
+ Line Size:
+ <input type="range" id="size" min="1" max="6" value="2">
+
+ <button onclick="clearBoard()">Clear</button>
+</div>
+
+<svg id="box" width="550" height="320"></svg>
+
+<script>
+let svg=document.getElementById("box");
+let drawing=false;
+let points="";
+let line;
+
+svg.addEventListener("mousedown",e=>{
+ drawing=true;
+ points=e.offsetX+","+e.offsetY;
+
+ line=document.createElementNS("http://www.w3.org/2000/svg","polyline");
+ line.setAttribute("fill","none");
+ line.setAttribute("stroke",color.value);
+ line.setAttribute("stroke-width",size.value);
+
+ svg.appendChild(line);
+});
+
+svg.addEventListener("mousemove",e=>{
+ if(drawing){
+  points+=" "+e.offsetX+","+e.offsetY;
+  line.setAttribute("points",points);
+ }
+});
+
+svg.addEventListener("mouseup",()=>drawing=false);
+
+function clearBoard(){
+ svg.innerHTML="";
+}
+</script>
+
+</body>
+</html>
